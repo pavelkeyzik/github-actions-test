@@ -1,8 +1,18 @@
 name: Actions Workflow
 
 on:
-  repository_dispatch:
-    types: [some-event-name]
+  # repository_dispatch:
+  #   types: [some-event-name]
+  # push:
+  #   branches:
+  #     - "main"
+  #     - "feature/*" # matches feature/a, feature/b, but doesn't match feature/feat/c
+  #     - "feature/**" # matches feature/a, feature/b, and feature/feat/a
+  #     - "!feature/c" # matches feature/a, feature/b, and NOT feature/c
+  #   tags:
+  #     - "v1.*"
+  #   paths:
+  #     - "**.js" # matches any .js file
   # schedule:
     # see https://crontab.guru/#0/3_*_*_*_* to understand cron jobs pattern
     # - cron: "0/3 * * * *"
