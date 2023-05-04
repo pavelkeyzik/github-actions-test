@@ -17,6 +17,8 @@ jobs:
   run-github-actions:
     runs-on: ubuntu-latest
     steps:
+      - name: Test Repository Dispatch Payload
+        run: echo "ENVIRONMENT -> ${{ github.event.client_payload.env }}"
       - name: List Files
         run: |
           pwd
