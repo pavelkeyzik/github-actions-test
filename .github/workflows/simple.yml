@@ -1,0 +1,14 @@
+name: Shell Commands # Workflow Name
+
+on: [push] # Events
+
+jobs:
+  run-shell-command: # Job Name
+    runs-on: ubuntu-latest
+    steps:
+      - name: log a string # Step Name
+        run: echo "Hey there 👋" # Script
+      - name: multiline script # Step Name
+        run: | # Multiple scripts
+          node -v
+          npm -v
