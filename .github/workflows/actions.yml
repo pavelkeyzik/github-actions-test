@@ -1,9 +1,9 @@
 name: Actions Workflow
 
 on:
-  schedule:
+  # schedule:
     # see https://crontab.guru/#0/3_*_*_*_* to understand cron jobs pattern
-    - cron: "0/3 * * * *"
+    # - cron: "0/3 * * * *"
   pull_request:
     types:
       - assigned
