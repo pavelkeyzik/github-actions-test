@@ -1,0 +1,23 @@
+name: Actions Workflow
+
+on: [push]
+
+jobs:
+  run-github-actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Simple JavaScript Actions
+        
+        # id should contain unique value, that will be a part of `steps` object
+        # that we're using on the step to log greeting time
+        id: greet
+
+        # Don't use `master` here, as if they merge something that fails
+        # Your pipeline will also fail. So, use specific version or even commit
+        uses: actions/hello-world-javascript-action@v1.1
+        with: # input parameters for actions, check with docs
+          who-to-greet: Pavel
+      - name: Log greeting time
+        # Logs an output from the step that have `greet` id
+        run: echo "The result from previous step is ${{ steps.greet.outputs.time }}"
+
