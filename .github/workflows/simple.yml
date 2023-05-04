@@ -16,4 +16,12 @@ jobs:
         run: |
           import platform
           print(platform.processor())
-        shell: python
+        shell: python # Change shell
+  run-windows-commands:
+    runs-on: windows-latest
+    steps:
+      - name: get directory from powershell
+        run: Get-Location
+      - name: get directory from bash
+        run: pwd
+        shell: bash
