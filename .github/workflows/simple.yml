@@ -19,6 +19,7 @@ jobs:
         shell: python # Change shell
   run-windows-commands:
     runs-on: windows-latest
+    needs: [run-shell-command] # Runs `run-shell-command` first and after success runs current job 
     steps:
       - name: get directory from powershell
         run: Get-Location
