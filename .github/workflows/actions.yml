@@ -6,6 +6,10 @@ jobs:
   run-github-actions:
     runs-on: ubuntu-latest
     steps:
+      - name: List Files
+        run: |
+          pwd
+          ls
       - name: Simple JavaScript Actions
         
         # id should contain unique value, that will be a part of `steps` object
