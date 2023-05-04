@@ -1,6 +1,6 @@
 name: Shell Commands # Workflow Name
 
-on: [push] # Events
+on: [pull_request] # Events
 
 jobs:
   run-shell-command: # Job Name
