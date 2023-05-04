@@ -1,6 +1,8 @@
 name: Actions Workflow
 
 on:
+  repository_dispatch:
+    types: [some-event-name]
   # schedule:
     # see https://crontab.guru/#0/3_*_*_*_* to understand cron jobs pattern
     # - cron: "0/3 * * * *"
