@@ -15,6 +15,16 @@ jobs:
         uses: actions/setup-node@v3.6.0
         with:
           node-version: 16.18.1
+      - name: Cache node_modules
+        uses: actions/cache@v3.3.1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+
+          # if GitHub didn't find cash from `key` then we could try to find
+          # old caches that start with anything provided in `restore-key`
+          restore-key: |
+            ${{ runner.os }}-node-
       - name: Install Dependencies
         run: npm ci
       - name: Check code format
