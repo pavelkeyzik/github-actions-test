@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [develop, main]
+  push:
+    branches: [develop, main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3.5.2
+      - name: Change Node.js Version
+        uses: actions/setup-node@v3.6.0
+        with:
+          node-version: 16.18.1
+      - name: Cache node_modules
+        uses: actions/cache@v3.3.1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+
+          # if GitHub didn't find cash from `key` then we could try to find
+          # old caches that start with anything provided in `restore-key`
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Install Dependencies
+        run: npm ci
+      - name: Check code format
+        run: npm run format:check
+      - name: Run unit tests
+        run: npm run test
+      - name: Generate Coverage Report
+        run: npm run coverage
+        env:
+          CI: true
+      - name: Upload Coverage Report
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: code-coverage # name of the file
+          path: coverage # path to coverage/ folder
+      - name: Build project
+        if: github.event_name == 'push' # Only when we push to develop branch
+        run: npm run build
+      - name: Upload Dist folder
+        uses: actions/upload-artifact@v3.1.2
+        if: github.event_name == 'push' # Only when we push to develop branch
+        with:
+          name: dist # name of the file
+          path: dist # path to dist/ folder
+      - uses: actions/download-artifact@v3.0.2
+      - name: Create a Release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deploy to Staging
+        if: github.event_name == 'push' # Only when we push to develop branch
+        run: npx surge --project ./dist --domain rainy-stream.surge.sh
+        env:
+          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
