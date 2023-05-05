@@ -35,9 +35,21 @@ jobs:
         run: npm run coverage
         env:
           CI: true
+      - name: Upload Coverage Report
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: code-coverage # name of the file
+          path: coverage # path to coverage/ folder
       - name: Build project
         if: github.event_name == 'push' # Only when we push to develop branch
         run: npm run build
+      - name: Upload Dist folder
+        uses: actions/upload-artifact@v3.1.2
+        if: github.event_name == 'push' # Only when we push to develop branch
+        with:
+          name: dist # name of the file
+          path: dist # path to dist/ folder
+      - uses: actions/download-artifact@v3.0.2
       - name: Deploy to Staging
         if: github.event_name == 'push' # Only when we push to develop branch
         run: npx surge --project ./dist --domain rainy-stream.surge.sh
