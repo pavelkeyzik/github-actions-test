@@ -2,9 +2,9 @@ name: CI
 
 on:
   pull_request:
-    branches: [develop]
+    branches: [develop, master]
   push:
-    branches: [develop]
+    branches: [develop, master]
 
 jobs:
   build:
@@ -50,6 +50,11 @@ jobs:
           name: dist # name of the file
           path: dist # path to dist/ folder
       - uses: actions/download-artifact@v3.0.2
+      - name: Create a Release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Deploy to Staging
         if: github.event_name == 'push' # Only when we push to develop branch
         run: npx surge --project ./dist --domain rainy-stream.surge.sh
