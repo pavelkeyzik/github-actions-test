@@ -4,10 +4,12 @@ on: [pull_request] # Events
 
 jobs:
   run-shell-command: # Job Name
+    if: ${{ false }} # Just disable this job
     runs-on: ubuntu-latest
     steps:
       - name: log a string # Step Name
         run: echo "Hey there 👋" # Script
+        continue-on-error: true # If this step returns an error, we still want to run other steps
       - name: multiline script # Step Name
         run: | # Multiple scripts
           node -v
@@ -18,6 +20,7 @@ jobs:
           print(platform.processor())
         shell: python # Change shell
   run-windows-commands:
+    if: ${{ false }} # Just disable this job
     runs-on: windows-latest
     needs: [run-shell-command] # Runs `run-shell-command` first and after success runs current job 
     steps:

@@ -26,6 +26,7 @@ on:
 jobs:
   run-github-actions:
     runs-on: ubuntu-latest
+    if: ${{ false }} # Just disable this job
     steps:
       - name: Test Repository Dispatch Payload
         run: echo "ENVIRONMENT -> ${{ github.event.client_payload.env }}"
