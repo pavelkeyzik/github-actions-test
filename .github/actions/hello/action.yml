@@ -1,0 +1,14 @@
+name: Hello World Action
+author: Pavel Keyzik
+description: JavaScript action to say hello world
+inputs:
+  who-to-greet:
+    description: The name of the person
+    required: true
+    default: "007"
+outputs:
+  time:
+    description: The greeting time
+runs:
+  using: "node12"
+  main: "index.js"
