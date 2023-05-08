@@ -1,0 +1,60 @@
+name: Actions Workflow
+
+on:
+  # repository_dispatch:
+  #   types: [some-event-name]
+  # push:
+  #   branches:
+  #     - "main"
+  #     - "feature/*" # matches feature/a, feature/b, but doesn't match feature/feat/c
+  #     - "feature/**" # matches feature/a, feature/b, and feature/feat/a
+  #     - "!feature/c" # matches feature/a, feature/b, and NOT feature/c
+  #   tags:
+  #     - "v1.*"
+  #   paths:
+  #     - "**.js" # matches any .js file
+  # schedule:
+    # see https://crontab.guru/#0/3_*_*_*_* to understand cron jobs pattern
+    # - cron: "0/3 * * * *"
+  pull_request:
+    types:
+      - assigned
+      - opened
+      - reopened
+      - closed
+
+jobs:
+  run-github-actions:
+    runs-on: ubuntu-latest
+    if: ${{ false }} # Just disable this job
+    steps:
+      - name: Test Repository Dispatch Payload
+        run: echo "ENVIRONMENT -> ${{ github.event.client_payload.env }}"
+      - name: List Files
+        run: |
+          pwd
+          ls -a
+          echo $GITHUB_SHA
+          echo $GITHUB_REPOSITORY
+          echo $GITHUB_WORKSPACE
+      - name: Checkout
+        uses: actions/checkout@v3.5.2
+      - name: List Files After Checkout
+        run: |
+          pwd
+          ls -a
+      - name: Simple JavaScript Actions
+        
+        # id should contain unique value, that will be a part of `steps` object
+        # that we're using on the step to log greeting time
+        id: greet
+
+        # Don't use `master` here, as if they merge something that fails
+        # Your pipeline will also fail. So, use specific version or even commit
+        uses: actions/hello-world-javascript-action@v1.1
+        with: # input parameters for actions, check with docs
+          who-to-greet: Pavel
+      - name: Log greeting time
+        # Logs an output from the step that have `greet` id
+        run: echo "The result from previous step is ${{ steps.greet.outputs.time }}"
+

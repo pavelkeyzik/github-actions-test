@@ -1,0 +1,29 @@
+name: Check
+
+on: push
+
+jobs:
+  job-1:
+    name: First Job
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Get project files
+        uses: actions/checkout@v3.5.2
+      - uses: ./.github/actions/before-job
+      - run: |
+          node -v
+          yarn -v
+          ls -a
+  job-2:
+    name: Second Job
+    needs:
+      - job-1
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Get project files
+        uses: actions/checkout@v3.5.2
+      - uses: ./.github/actions/before-job
+      - run: |
+          node -v
+          yarn -v
+          ls -a

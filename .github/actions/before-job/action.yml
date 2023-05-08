@@ -1,0 +1,12 @@
+name: Before Job Action
+description: It does something cool
+runs:
+  using: composite
+  steps:
+    - name: Change Node version
+      uses: actions/setup-node@v3.6.0
+      with:
+        node-version: 18.16.0
+    - name: Install Yarn (v1)
+      run: npm install --global yarn
+      shell: sh
