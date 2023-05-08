@@ -3,27 +3,72 @@ name: Check
 on: push
 
 jobs:
-  job-1:
-    name: First Job
+  file:
+    name: file
     runs-on: ubuntu-22.04
     steps:
-      - name: Get project files
-        uses: actions/checkout@v3.5.2
-      - uses: ./.github/actions/before-job
-      - run: |
-          node -v
-          yarn -v
-          ls -a
-  job-2:
-    name: Second Job
+      - run: echo "file"
+
+  lint:
+    name: lint
+    runs-on: ubuntu-22.04
+    steps:
+      - run: echo "lint"
+
+  pr:
+    name: pr
+    runs-on: ubuntu-22.04
+    steps:
+      - run: echo "pr"
+
+  test:
+    name: test
+    runs-on: ubuntu-22.04
+    steps:
+      - run: echo "test"
+
+  typescript:
+    name: typescript
+    runs-on: ubuntu-22.04
+    steps:
+      - run: echo "typescript"
+
+  p_build:
+    name: p_build
+    runs-on: ubuntu-22.04
     needs:
-      - job-1
-    runs-on: ubuntu-22.04
+      - file
+      - lint
+      - pr
+      - test
+      - typescript
     steps:
-      - name: Get project files
-        uses: actions/checkout@v3.5.2
-      - uses: ./.github/actions/before-job
-      - run: |
-          node -v
-          yarn -v
-          ls -a
+      - run: echo "p_build"
+
+  s_build:
+    name: s_build
+    runs-on: ubuntu-22.04
+    needs:
+      - file
+      - lint
+      - pr
+      - test
+      - typescript
+    steps:
+      - run: echo "s_build"
+
+  p_publish:
+    name: p_publish
+    runs-on: ubuntu-22.04
+    needs:
+      - p_build
+    steps:
+      - run: echo "p_publish"
+
+  s_publish:
+    name: s_publish
+    runs-on: ubuntu-22.04
+    needs:
+      - s_build
+    steps:
+      - run: echo "s_publish"
