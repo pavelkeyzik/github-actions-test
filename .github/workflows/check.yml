@@ -1,74 +1,132 @@
-name: Check
+name: CI/CD Workflow
 
-on: push
+on:
+  pull_request:
+  push:
+    branches:
+      - "main"
+      - "next"
+      - "version/**"
 
 jobs:
-  file:
-    name: file
+  # Check jobs
+  file-structure:
+    name: Files structure
     runs-on: ubuntu-22.04
     steps:
-      - run: echo "file"
-
+      - name: Get project files
+        uses: actions/checkout@v3.5.2
+      - uses: ./.github/actions/before-job
+      - name: Verify files structure
+        run: echo "Verify files structure"
   lint:
-    name: lint
+    name: Lint
     runs-on: ubuntu-22.04
     steps:
-      - run: echo "lint"
-
-  pr:
-    name: pr
+      - name: Get project files
+        uses: actions/checkout@v3.5.2
+      - uses: ./.github/actions/before-job
+      - name: Check for linting issues
+        run: echo "Check for linting issues"
+  pull-request:
+    name: Pull Request
+    if: ${{ github.event_name == 'pull_request' }}
     runs-on: ubuntu-22.04
     steps:
-      - run: echo "pr"
-
+      - name: Get project files
+        uses: actions/checkout@v3.5.2
+      - uses: ./.github/actions/before-job
+      - name: Check for Pull Request configuration
+        run: echo "Check for Pull Request configuration"
   test:
-    name: test
+    name: Tests
     runs-on: ubuntu-22.04
     steps:
-      - run: echo "test"
-
+      - name: Get project files
+        uses: actions/checkout@v3.5.2
+      - uses: ./.github/actions/before-job
+      - name: Run tests
+        run: echo "Run tests"
+      - name: Upload Code Coverage
+        run: echo "Upload Code Coverage"
   typescript:
-    name: typescript
+    name: TypeScript
     runs-on: ubuntu-22.04
     steps:
-      - run: echo "typescript"
+      - name: Get project files
+        uses: actions/checkout@v3.5.2
+      - uses: ./.github/actions/before-job
+      - name: Check for TypeScript issues
+        run: echo "Check for TypeScript issues"
 
-  p_build:
-    name: p_build
+  # Build jobs
+  package-build:
+    name: Build package
     runs-on: ubuntu-22.04
     needs:
-      - file
+      - file-structure
       - lint
-      - pr
       - test
       - typescript
     steps:
-      - run: echo "p_build"
-
-  s_build:
-    name: s_build
+      - name: Get project files
+        uses: actions/checkout@v3.5.2
+      - uses: ./.github/actions/before-job
+      - name: Build
+        run: |
+          echo "Build"
+          mkdir dist
+          cd dist
+          echo "Something" > index.js
+          ls -a
+          cat index.js
+          cd ../
+      # - name: Install Chromium
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get install -y chromium
+      - name: Install Dependencies
+        run: npm install
+      - uses: andresz1/size-limit-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: dist
+          path: dist
+          retention-days: 1
+  storybook-build:
+    name: Build storybook
     runs-on: ubuntu-22.04
     needs:
-      - file
+      - file-structure
       - lint
-      - pr
       - test
       - typescript
     steps:
-      - run: echo "s_build"
-
-  p_publish:
-    name: p_publish
+      - name: Get project files
+        uses: actions/checkout@v3.5.2
+      - uses: ./.github/actions/before-job
+      - name: Build
+        run: |
+          mkdir storybook-static
+          cd storybook-static
+          echo "<h1>Storybook</h1>" > index.html
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: storybook-static
+          path: storybook-static
+          retention-days: 1
+  storybook-publish:
+    name: Publish Storybook
     runs-on: ubuntu-22.04
     needs:
-      - p_build
+      - storybook-build
     steps:
-      - run: echo "p_publish"
-
-  s_publish:
-    name: s_publish
-    runs-on: ubuntu-22.04
-    needs:
-      - s_build
-    steps:
-      - run: echo "s_publish"
+      - name: Get project files
+        uses: actions/checkout@v3.5.2
+      - uses: ./.github/actions/before-job
+      - name: Publish Storybook
+        run: echo "Publish Storybook"
