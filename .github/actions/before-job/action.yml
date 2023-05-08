@@ -6,7 +6,7 @@ runs:
     - name: Change Node version
       uses: actions/setup-node@v3.6.0
       with:
-        node-version: 18.16.0
+        node-version: 16.18.1
     - name: Install Yarn (v1)
       run: npm install --global yarn
       shell: sh
