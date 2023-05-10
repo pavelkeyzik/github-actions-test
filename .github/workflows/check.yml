@@ -71,10 +71,10 @@ jobs:
       - name: Get project files
         uses: actions/checkout@v3.5.2
       - uses: ./.github/actions/before-job
+      - run: npm install
+      - run: npm run coverage
       - name: Upload Coverage
         run: |
-          npm install
-          npm run coverage
           wget https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 -O cc-test-reporter
           chmod +x ./cc-test-reporter
           ./cc-test-reporter before-build
