@@ -1,0 +1,12 @@
+{
+  "plugins": [
+    "git-tag",
+    "all-contributors",
+    "conventional-commits",
+    "released"
+  ],
+  "owner": "pavelkeyzik",
+  "repo": "github-actions-test",
+  "name": "Publish Bot",
+  "email": "some-email@gmail.com"
+}

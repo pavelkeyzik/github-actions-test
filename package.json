@@ -26,6 +26,7 @@
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react": "^4.0.0",
     "@vitest/coverage-c8": "^0.31.0",
+    "auto": "^10.46.0",
     "eslint": "^8.38.0",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
@@ -34,5 +35,17 @@
     "semantic-release": "^21.0.2",
     "vite": "^4.3.2",
     "vitest": "^0.31.0"
+  },
+  "repository": "pavelkeyzik/github-actions-test",
+  "author": "PLK Bot <pavel.keyzik@gmail.com>",
+  "auto": {
+    "plugins": [
+      "npm",
+      "all-contributors",
+      "conventional-commits",
+      "first-time-contributor",
+      "released",
+      "slack"
+    ]
   }
 }
