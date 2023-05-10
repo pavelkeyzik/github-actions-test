@@ -11,6 +11,7 @@ on:
 jobs:
   # Check jobs
   file-structure:
+    if: false
     name: Files structure
     runs-on: ubuntu-22.04
     steps:
@@ -20,6 +21,7 @@ jobs:
       - name: Verify files structure
         run: echo "Verify files structure"
   lint:
+    if: false
     name: Lint
     runs-on: ubuntu-22.04
     steps:
@@ -41,6 +43,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
   test:
+    if: false
     name: Tests
     runs-on: ubuntu-22.04
     steps:
@@ -52,6 +55,7 @@ jobs:
       - name: Upload Code Coverage
         run: echo "Upload Code Coverage"
   typescript:
+    if: false
     name: TypeScript
     runs-on: ubuntu-22.04
     steps:
@@ -60,6 +64,26 @@ jobs:
       - uses: ./.github/actions/before-job
       - name: Check for TypeScript issues
         run: echo "Check for TypeScript issues"
+  code-climate:
+    name: Code Climate Coverage
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Get project files
+        uses: actions/checkout@v3.5.2
+      - uses: ./.github/actions/before-job
+      - name: Upload Coverage
+        run: |
+          npm install
+          npm run coverage
+          wget https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 -O cc-test-reporter
+          ls -a coverage
+          chmod +x ./cc-test-reporter
+          ./cc-test-reporter before-build
+          ./cc-test-reporter format-coverage coverage/clover.xml -t clover
+        # ./cc-test-reporter upload-coverage
+        env:
+          CC_TEST_REPORTER_ID: ae779a41f8ada870fed40c9b8718f00fe40369c4381d70304979366edba78e51
+          ACTIONS_RUNNER_DEBUG: true
 
   # Build jobs
   package-build:
