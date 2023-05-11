@@ -1,52 +1,29 @@
 {
-  "name": "github-actions-test",
-  "private": true,
-  "version": "0.0.0",
+  "name": "pavelkeyzik-github-actions-test",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "coverage": "vitest run --coverage",
-    "format:check": "prettier --check src/**/*.jsx",
-    "format:write": "prettier --write src/**/*.jsx"
-  },
-  "dependencies": {
-    "@actions/core": "^1.10.0",
-    "@actions/github": "^5.1.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "size-limit": "^8.2.4"
+    "build": "rollup --config"
   },
   "devDependencies": {
-    "@types/jest": "^29.5.1",
-    "@types/react": "^18.0.28",
-    "@types/react-dom": "^18.0.11",
-    "@vitejs/plugin-react": "^4.0.0",
-    "@vitest/coverage-c8": "^0.31.0",
-    "auto": "^10.46.0",
-    "eslint": "^8.38.0",
-    "eslint-plugin-react": "^7.32.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.3.4",
-    "prettier": "^2.8.8",
-    "semantic-release": "^21.0.2",
-    "vite": "^4.3.2",
-    "vitest": "^0.31.0"
+    "rollup": "^3.21.6"
   },
-  "repository": "pavelkeyzik/github-actions-test",
-  "author": "PLK Bot <pavel.keyzik@gmail.com>",
-  "auto": {
-    "plugins": [
-      "npm",
-      "all-contributors",
-      "conventional-commits",
-      "first-time-contributor",
-      "released",
-      "slack"
-    ]
-  }
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pavelkeyzik/github-actions-test.git"
+  },
+  "description": "![Deploy Status](https://github.com/pavelkeyzik/github-actions-test/workflows/CI/badge.svg?branch=main&event=push)",
+  "bugs": {
+    "url": "https://github.com/pavelkeyzik/github-actions-test/issues"
+  },
+  "homepage": "https://github.com/pavelkeyzik/github-actions-test#readme",
+  "main": "dist/index.js",
+  "dependencies": {
+    "fsevents": "^2.3.2"
+  },
+  "keywords": [
+    "test"
+  ],
+  "author": "Pavel Keyzik",
+  "license": "MIT"
 }
