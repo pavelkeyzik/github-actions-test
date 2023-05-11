@@ -82,7 +82,6 @@ jobs:
           ./cc-test-reporter upload-coverage
         env:
           CC_TEST_REPORTER_ID: ae779a41f8ada870fed40c9b8718f00fe40369c4381d70304979366edba78e51
-          ACTIONS_RUNNER_DEBUG: true
 
   # Build jobs
   package-build:
