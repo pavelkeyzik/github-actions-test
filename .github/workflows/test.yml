@@ -1,19 +1,31 @@
 name: Workflow With Environment Test
 
-on: push
+on:
+  push:
+  workflow_dispatch:
+    inputs:
+      withCanaryDeploy:
+        description: "Run with deploy"
+        required: true
+        type: boolean
+        default: false
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
       - run: echo "Tests"
-  deploy:
+      - run: echo "${{ inputs.tags }}"
+  release:
     runs-on: ubuntu-latest
-    environment: production
     steps:
-      - run: echo "DEPLOY"
-  deploy-2:
-    runs-on: ubuntu-latest
-    environment: production
-    steps:
-      - run: echo "DEPLOY 2"
+      - run: |
+          if [[ "${{ inputs.withCanaryDeploy }}" == "true" ]]
+          then
+            echo "Releasy canary"
+          elif [[ ${{ github.event_name != 'pull_request' }} ]]
+          then
+            echo "Regular release"
+          else
+            echo "Skip release"
+          fi
