@@ -1,0 +1,19 @@
+name: Workflow With Environment Test
+
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Tests"
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - run: echo "DEPLOY"
+  deploy-2:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - run: echo "DEPLOY 2"
