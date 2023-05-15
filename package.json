@@ -1,5 +1,5 @@
 {
-  "name": "pavelkeyzik-github-actions-test",
+  "name": "@pavelkeyzik/github-actions-test",
   "version": "0.0.1",
   "type": "module",
   "scripts": {
@@ -7,6 +7,9 @@
   },
   "devDependencies": {
     "rollup": "^3.21.6"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   },
   "repository": {
     "type": "git",
