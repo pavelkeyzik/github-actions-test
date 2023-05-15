@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "build": "rollup --config"
+    "build": "rollup --config",
+    "test": "echo 'Hello World'"
   },
   "devDependencies": {
     "rollup": "^3.21.6"
