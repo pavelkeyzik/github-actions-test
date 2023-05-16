@@ -1,0 +1,31 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+
+jobs:
+  deploy:
+    name: Deploy website
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Make artifact
+        run: |
+          mkdir dist
+          echo "<h1>Hello, GitHub Pages</h1>" > dist/index.html
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: github-pages
+          path: dist
+          retention-days: 1
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2.0.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
